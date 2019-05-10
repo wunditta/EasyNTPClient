@@ -14,6 +14,13 @@ Arduino library to read time from Network Time Protocol (NTP) servers.
 
 &nbsp;
 
+## Changes to Root
+- If time update from NTP server fails, time is not set to 0 but kept as last known
+- Added functions to get info, if time update failed, and time since last update
+- Possible to set update interval (default 60 secs) with init call or separate function
+
+&nbsp;
+
 ## Examples    
 1. **NodeMCU**    
 Using EasyNTPClient on a NodeMCU (ESP8266)     
