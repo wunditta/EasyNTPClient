@@ -14,7 +14,7 @@ Arduino library to read time from Network Time Protocol (NTP) servers.
 
 &nbsp;
 
-## Changes to Root
+## Changes Compared to Root
 - If time update from NTP server fails, time is not set to 0 but kept as last known
 - Added functions to get info, if time update failed, and time since last update
 - Possible to set update interval (default 60 secs) with init call or separate function
@@ -33,42 +33,64 @@ By [**Claran Martis**](https://www.collaborizm.com/profile/SJne7FcMg)
 
 ## Reference
 ### Class **EasyNTPClient**
-#### 1. Initialization ####
-1. No frills 
+#### Initialization ####
+1. Possible calls
 ```c
-EasyNTPClient(UDP &udp)
-
-Parameters:
-    udp: Reference to an UDP object.
-Returns:
-    EasyNTPClient object.
+EasyNTPClient(UDP &udp);
+EasyNTPClient(UDP &udp, const char* serverPool);
+EasyNTPClient(UDP &udp, const char* serverPool, int offset);
+EasyNTPClient(UDP &udp, const char* serverPool, int offset, unsigned int updateInterval);
 ```
 
-2. Custom server pool 
-```c
-EasyNTPClient(UDP& udp, const char* serverPool)
-
-Parameters:
-    udp: Reference to an UDP object.
-	serverPool: NTP server pool. Default = "pool.ntp.org"
-Returns:
-    EasyNTPClient object.
+2. Parameters
+```
+    udp:             Reference to an UDP object.
+    serverPool:      NTP server pool domain name. Default = "pool.ntp.org".
+    offset:          Difference from UTC in seconds. Default = 0.
+    updateInterval:  Update interval in seconds. Default = 60.
+                     (getUnixTime will return internal unix time before the update interval is reached)
 ```
 
-3. Time offset
+3. Return
 ```c
-EasyNTPClient(UDP& udp, const char* serverPool, int offset);
-
-Parameters:
-    udp: Reference to an UDP object.
-	serverPool: NTP server pool domain name. Default = "pool.ntp.org"
-	offset: Difference from UTC in seconds. Default = 0
-Returns:
-    EasyNTPClient object.
+    EasyNTPClient object
 ```
 
-#### 2. Methods ###    
-1. Get time offset
+#### Methods ###    
+Get time in UNIX format
+```c
+unsigned long getUnixTime();
+
+Returns:
+    UTC time in UNIX time format (seconds)
+```
+
+Set update interval
+```c
+void setInterval(unsigned int updateInterval);
+
+Parameters:
+    updateInterval: Update interval in seconds. Default = 60.
+```
+
+Last update successful
+```c
+bool wasUpdated()
+
+Returns:
+    TRUE:  If last update was successful
+    FALSE: If last update was not successful
+```
+
+Time since last successful update
+```c
+unsigned int sinceUpdate()
+
+Returns:
+    Time in seconds since the last successful update.
+```
+
+Get time offset
 ```c
 int getTimeOffset()
 
@@ -76,18 +98,10 @@ Returns:
     EasyNTPClient object.
 ```
 
-2. Set time offset
+Set time offset
 ```c
 void setTimeOffset(int offset);
 
 Parameters:
     offset: Difference from UTC in seconds.
-```
-
-3. Get time in UNIX format
-```c
-unsigned long getUnixTime();
-
-Returns:
-    UTC time in UNIX time format (seconds)
 ```
