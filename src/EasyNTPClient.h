@@ -33,6 +33,7 @@ class EasyNTPClient
     int mOffset = 0;
     unsigned int mUpdateInterval = 60000;
     unsigned long mLastUpdate = 0;
+    bool mWasUpdated = false;
     long mServerTime = 0;
     unsigned long getServerTime();
 };
