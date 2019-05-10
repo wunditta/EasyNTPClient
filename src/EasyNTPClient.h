@@ -21,8 +21,12 @@ class EasyNTPClient
 {
   public:
     EasyNTPClient(UDP &udp);
-    EasyNTPClient(UDP& udp, const char* serverPool);
-    EasyNTPClient(UDP& udp, const char* serverPool, int offset);
+    EasyNTPClient(UDP &udp, const char* serverPool);
+    EasyNTPClient(UDP &udp, const char* serverPool, int offset);
+    EasyNTPClient(UDP &udp, const char* serverPool, int offset, unsigned int updateInterval);
+    void setInterval (unsigned int updateInterval);
+    bool wasUpdated();
+    int sinceUpdate();
     int getTimeOffset();
     void setTimeOffset(int offset);
     unsigned long getUnixTime();
